@@ -1,6 +1,7 @@
 import React from 'react';
 import Styled from 'styled-components';
 import Suggestion from '../Suggestions/Suggestion';
+import NoMatches from './NoMatches';
 
 const CARDS_CONTAINER_HEIGHT = '384px';
 
@@ -13,8 +14,16 @@ const Wrapper = Styled.div.attrs(() => ({ id: 'suggestions_wrapper' }))`
     overflow-y: scroll;  
 `;
 
-export default ({ suggestions, activeIndex, onMouseOverCallback }) => (
-  <Wrapper showBorder={suggestions.length}>
+export default ({
+  suggestions,
+  searchTerm,
+  activeIndex,
+  onMouseOverCallback,
+}) => (
+  <Wrapper showBorder={searchTerm}>
+    {searchTerm && !suggestions.length ? (
+      <NoMatches message={`No matches found`} />
+    ) : null}
     {suggestions.map((suggestion, index) => (
       <Suggestion
         key={suggestion.id}

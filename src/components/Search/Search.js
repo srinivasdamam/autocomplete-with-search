@@ -96,6 +96,7 @@ class Search extends React.Component {
           hasClear
         />
         <Suggestions
+          searchTerm={searchTerm}
           suggestions={suggestions}
           activeIndex={activeIndex}
           onMouseOverCallback={index => {
