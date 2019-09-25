@@ -20,9 +20,9 @@ const Clear = Styled.div`
     cursor: pointer;
 `;
 
-export default ({ hasClear, onClear, ...rest}) => (
-    <Wrapper>
-        <Input {...rest}/>
-        { hasClear ? <Clear onClick={onClear}>X</Clear> : null }
-    </Wrapper>
-)
+export default ({ hasClear, onClear, ...rest }) => (
+  <Wrapper>
+    <Input {...rest} />
+    {hasClear ? <Clear onClick={onClear}>X</Clear> : null}
+  </Wrapper>
+);

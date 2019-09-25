@@ -2,10 +2,10 @@ import React from 'react';
 import Styled from 'styled-components';
 
 const Wrapper = Styled.div.attrs(() => ({
-    className: 'suggestion'
+  className: 'suggestion',
 }))`
     padding: 10px;
-    background: ${props => props.active ? '#ffef5f33' : '#fff'}
+    background: ${props => (props.active ? '#ffef5f33' : '#fff')}
 `;
 
 const ID = Styled.div`
@@ -26,23 +26,31 @@ const FoundInItems = Styled.div`
     border: 1px solid grey;
     border-left: 0;
     border-right: 0;
- `
+ `;
 
 export default ({ suggestion, index, active, onMouseOverCallback }) => (
-    <Wrapper active={active}
-             onMouseOver={() => onMouseOverCallback(index)}
-             onFocus={() => onMouseOverCallback(index)}>
-        <ID as="h5"
-            dangerouslySetInnerHTML={{__html: suggestion._highlights['id']._html}}
-        />
-        <Name as="p" dangerouslySetInnerHTML={{__html: suggestion._highlights['name']._html}}/>
-        { suggestion._meta.foundInItems ? (
-            <FoundInItems>
-                <span>&quot;{suggestion._meta.searchTerm}&quot;</span> found in items
-            </FoundInItems>
-        ) : null }
-        <p dangerouslySetInnerHTML={{__html: suggestion._highlights['address']._html}}/>
-    </Wrapper>
+  <Wrapper
+    active={active}
+    onMouseOver={() => onMouseOverCallback(index)}
+    onFocus={() => onMouseOverCallback(index)}
+  >
+    <ID
+      as="h5"
+      dangerouslySetInnerHTML={{ __html: suggestion._highlights['id']._html }}
+    />
+    <Name
+      as="p"
+      dangerouslySetInnerHTML={{ __html: suggestion._highlights['name']._html }}
+    />
+    {suggestion._meta.foundInItems ? (
+      <FoundInItems>
+        <span>&quot;{suggestion._meta.searchTerm}&quot;</span> found in items
+      </FoundInItems>
+    ) : null}
+    <p
+      dangerouslySetInnerHTML={{
+        __html: suggestion._highlights['address']._html,
+      }}
+    />
+  </Wrapper>
 );
-
-
