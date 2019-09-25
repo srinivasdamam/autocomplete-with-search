@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { string } from 'prop-types';
 import Input from './Input';
 import Suggestions from "../Suggestions/Suggestions";
-import { transformAndFilterSuggestions } from "../../utils";
+import { memoizedTransformAndFilterSuggestions } from "../../utils";
 
 // arrow up, down event code
 const ARROW_KEY_EVENT_CODES = [38, 40];
@@ -85,7 +85,7 @@ class Search extends React.Component {
     render() {
         const { activeIndex, searchTerm } = this.state;
         const { data } = this.props;
-        const suggestions = transformAndFilterSuggestions(data, searchTerm);
+        const suggestions = memoizedTransformAndFilterSuggestions(data, searchTerm);
 
         return (
             <Fragment>

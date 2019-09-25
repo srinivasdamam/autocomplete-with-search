@@ -1,8 +1,14 @@
+import memoize from 'fast-memoize';
+
+// memoize is used to cache the function results
+// this is helpful when the data is too large and function
+// has many instructions
+
 function hasMatches(suggestion) {
     return suggestion._meta.hasMatches;
 }
 
-export function transformAndFilterSuggestions (data = [], searchTerm = '') {
+function transformAndFilterSuggestions (data = [], searchTerm = '') {
     const regex = new RegExp(searchTerm, 'ig');
 
     return data.map(item => {
@@ -62,3 +68,5 @@ export function transformAndFilterSuggestions (data = [], searchTerm = '') {
         return item;
     }).filter(hasMatches);
 }
+
+export const memoizedTransformAndFilterSuggestions = memoize(transformAndFilterSuggestions);
