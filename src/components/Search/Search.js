@@ -97,7 +97,12 @@ class Search extends React.Component {
                 />
                <Suggestions suggestions={suggestions}
                             activeIndex={activeIndex}
-                            onMouseOverCallback={(index) => this.setState({ activeIndex: index })}
+                            onMouseOverCallback={(index) => {
+                                if (!this.state.hideCursor) {
+                                    this.setState({ activeIndex: index })
+                                }
+                            }}
+
                />
             </Fragment>
         )
