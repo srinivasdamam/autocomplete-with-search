@@ -20,9 +20,15 @@ const Clear = Styled.div`
     cursor: pointer;
 `;
 
+function preventArrowKeyEvents(event) {
+    if (event.keyCode === 38 || event.keyCode === 40) {
+        event.preventDefault();
+    }
+}
+
 export default ({ hasClear, onClear, ...rest }) => (
   <Wrapper>
-    <Input {...rest} />
+    <Input {...rest} onKeyDown={preventArrowKeyEvents} />
     {hasClear ? <Clear onClick={onClear}>X</Clear> : null}
   </Wrapper>
 );
