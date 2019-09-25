@@ -10,7 +10,6 @@ const Wrapper = Styled.div.attrs(() => ({
 
 const ID = Styled.div`
     text-transform: uppercase;
-    text-transform
     margin-top: 8px;
     margin-bottom: 8px;
 `;
