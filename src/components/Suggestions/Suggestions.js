@@ -14,24 +14,26 @@ const Wrapper = Styled.div.attrs(() => ({ id: 'suggestions_wrapper' }))`
     overflow-y: scroll;  
 `;
 
-export default ({
-  suggestions,
-  searchTerm,
-  activeIndex,
-  onMouseOverCallback,
-}) => (
-  <Wrapper showBorder={searchTerm}>
-    {searchTerm && !suggestions.length ? (
-      <NoMatches message={`No matches found`} />
-    ) : null}
-    {suggestions.map((suggestion, index) => (
-      <Suggestion
-        key={suggestion.id}
-        index={index}
-        active={index === activeIndex}
-        suggestion={suggestion}
-        onMouseOverCallback={onMouseOverCallback}
-      />
-    ))}
-  </Wrapper>
+const Suggestions = React.forwardRef(
+  ({ suggestions, searchTerm, activeIndex, onMouseOverCallback }, ref) => (
+    <div>
+      <Wrapper showBorder={searchTerm}>
+        {searchTerm && !suggestions.length ? (
+          <NoMatches message={`No matches found`} />
+        ) : null}
+        {suggestions.map((suggestion, index) => (
+          <div ref={index === activeIndex ? ref : null} key={suggestion.id}>
+            <Suggestion
+              index={index}
+              active={index === activeIndex}
+              suggestion={suggestion}
+              onMouseOverCallback={onMouseOverCallback}
+            />
+          </div>
+        ))}
+      </Wrapper>
+    </div>
+  )
 );
+
+export default Suggestions;

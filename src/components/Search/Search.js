@@ -11,15 +11,29 @@ const ARROW_KEY_EVENT_CODES = [38, 40];
 const CARDS_CONTAINER_HEIGHT = 384;
 
 class Search extends React.Component {
-  state = {
-    activeIndex: null,
-    searchTerm: '',
-    hideCursor: false, // state of cursor when keyboard is being used
-  };
+  constructor(props) {
+    super(props);
+    this.ref = React.createRef();
+    this.state = {
+      activeIndex: null,
+      searchTerm: '',
+      shouldScrollIntoView: false,
+      hideCursor: false, // state of cursor when keyboard is being used
+    };
+  }
 
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
     window.addEventListener('mousemove', this.showCursor);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.state.activeIndex !== prevState.activeIndex &&
+      this.state.shouldScrollIntoView
+    ) {
+      this.scrollToActiveIndex();
+    }
   }
 
   componentWillUnmount() {
@@ -32,22 +46,15 @@ class Search extends React.Component {
     document.getElementById('suggestions_wrapper').style.cursor = 'auto';
   };
 
-  scrollTo = activeIndex => {
-    const nodes = document.querySelectorAll('.suggestion');
-    const node = nodes[activeIndex];
-    if (!node) {
+  scrollToActiveIndex = () => {
+    if (!this.ref || !this.ref.current) {
       return null;
     }
 
-    const { height } = node.getBoundingClientRect();
-    const wrapper = document.getElementById('suggestions_wrapper');
-    const scrollTop = wrapper.scrollTop;
-    const viewport = scrollTop + CARDS_CONTAINER_HEIGHT;
-    const elOffset = height * activeIndex;
-
-    if (elOffset < scrollTop || elOffset + height > viewport) {
-      wrapper.scrollTop = elOffset;
-    }
+    this.ref.current.scrollIntoView({
+      behaviour: 'smooth',
+      block: 'center',
+    });
   };
 
   handleKeyDown = event => {
@@ -74,10 +81,10 @@ class Search extends React.Component {
       return null;
     } else {
       const next = isArrowUp ? activeIndex - 1 : activeIndex + 1;
-      this.setState({ activeIndex: next }, () => this.scrollTo(next));
+      this.setState({ activeIndex: next });
     }
 
-    this.setState({ hideCursor: true });
+    this.setState({ hideCursor: true, shouldScrollIntoView: true });
     document.getElementById('suggestions_wrapper').style.cursor = 'none';
   };
 
@@ -99,9 +106,13 @@ class Search extends React.Component {
           searchTerm={searchTerm}
           suggestions={suggestions}
           activeIndex={activeIndex}
+          ref={this.ref}
           onMouseOverCallback={index => {
             if (!this.state.hideCursor) {
-              this.setState({ activeIndex: index });
+              this.setState({
+                activeIndex: index,
+                shouldScrollIntoView: false,
+              });
             }
           }}
         />

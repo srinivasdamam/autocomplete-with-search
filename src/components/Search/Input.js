@@ -21,9 +21,9 @@ const Clear = Styled.div`
 `;
 
 function preventArrowKeyEvents(event) {
-    if (event.keyCode === 38 || event.keyCode === 40) {
-        event.preventDefault();
-    }
+  if (event.keyCode === 38 || event.keyCode === 40) {
+    event.preventDefault();
+  }
 }
 
 export default ({ hasClear, onClear, ...rest }) => (
